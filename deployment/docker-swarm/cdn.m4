@@ -2,7 +2,7 @@
     cdn-service:
         image: defn(`REGISTRY_PREFIX')ssai_cdn_service:latest
         ports:
-            - "443:8443"
+            - "8443:8443"
         environment:
             NO_PROXY: "*"
             no_proxy: "*"

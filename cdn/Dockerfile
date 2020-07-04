@@ -7,7 +7,8 @@ CMD     ["/bin/bash","-c","/home/main.py&/usr/sbin/nginx"]
 EXPOSE  8080
 
 ####
-ARG  USER=docker
+#ARG  USER=docker
+ARG  USER=root
 ARG  GROUP=docker
 ARG  UID
 ARG  GID
