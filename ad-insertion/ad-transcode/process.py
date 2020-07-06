@@ -14,6 +14,8 @@ import requests
 import shutil
 import traceback
 
+import gadserver
+
 adinsert_archive_root="/var/www/adinsert"
 adsegment_archive_root="/var/www/adsegment"
 dash_root=adinsert_archive_root+"/dash"
@@ -68,22 +70,26 @@ def ADPrefetch(ad_uri):
         except:
             print(traceback.format_exc(), flush=True)
     return None 
+        
+
 
 def ADClipDecision(msg, db):
     duration = msg.time_range[1]-msg.time_range[0]
     print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
-        r=requests.post(ad_decision_server, timeout=timeout, data=json.dumps({
-            "metadata":metaData,
-            "user":{
-                "name":msg.user_name,
-                "keywords":msg.user_keywords
-            },
-        }))
-        r.raise_for_status()
-        ad_info = r.json()
-        return ad_info[0]["source"]["uri"]
+        # r=requests.post(ad_decision_server, timeout=timeout, data=json.dumps({
+        #     "metadata":metaData,
+        #     "user":{
+        #         "name":msg.user_name,
+        #         "keywords":msg.user_keywords
+        #     },
+        # }))
+        # r.raise_for_status()
+        # ad_info = r.json()
+        # return ad_info[0]["source"]["uri"]
+    uri = gadserver.callGuaranteedAdServer(msg,db)
+    return uri
     except:
         print(traceback.format_exc(), flush=True)
         return None
