@@ -61,7 +61,7 @@ def callGuaranteedAdServer(msg, db):
        # print(r)
 
         result = None
-        vast = ET.fromstring(r)
+        vast = ET.fromstring(r.text())
         for node in vast.iter():
             if node.tag == "MediaFile":
               result = node.text
