@@ -61,13 +61,14 @@ def callGuaranteedAdServer(msg, db):
        # print(r)
 
         result = None
-        vast = ET.fromstring(r.text())
+        
+        vast = ET.fromstring(r.text)
         for node in vast.iter():
             if node.tag == "MediaFile":
               result = node.text
               break
 
-            print("SHRI :: success GAM")
+        print("SHRI :: success GAM")
         return result   
     except Exception as e:
         print("Error in calling GAM")
