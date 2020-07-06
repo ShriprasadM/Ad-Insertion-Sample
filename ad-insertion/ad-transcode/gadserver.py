@@ -7,7 +7,10 @@ def callGuaranteedAdServer(msg, db):
     # duration = msg.time_range[1]-msg.time_range[0]
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
-    gam = "https://pubads.g.doubleclick.net/gampad/ads?iu=/15671365/SM_HK_20_AU&description_url=http%3A%2F%2Fgoogle.com&tfcd=0&npa=0&sz=320x254&min_ad_duration=15000&max_ad_duration=17000&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&correlator=[placeholder]&vpmute=0&vpa=0&url=http%3A%2F%2Fgoogle.com&vpos=preroll"
+    adMinDuration = 5000 # 5 sec
+    adMaxDuration = 17000 # 15 sec
+
+    gam = "https://pubads.g.doubleclick.net/gampad/ads?iu=/15671365/SM_HK_20_AU&description_url=http%3A%2F%2Fgoogle.com&tfcd=0&npa=0&sz=320x254&min_ad_duration=" + str(adMinDuration) + "&max_ad_duration="+ str(adMaxDuration) + "&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&correlator=[placeholder]&vpmute=0&vpa=0&url=http%3A%2F%2Fgoogle.com&vpos=preroll"
     try:
         r = requests.get(gam)
 
@@ -62,13 +65,19 @@ def callGuaranteedAdServer(msg, db):
 
         result = None
         
+        # TODO call unwrap VAST End point
         vast = ET.fromstring(r.text)
         for node in vast.iter():
             if node.tag == "MediaFile":
               result = node.text
               break
 
-        print("SHRI :: success GAM")
+       # to merge multiple ads in to single ad and stich
+        
+        if result == None :
+            print("Error :: GAM return empty VAST")
+        else :
+            print("SHRI :: success GAM")
         return result   
     except Exception as e:
         print("Error in calling GAM")

@@ -88,7 +88,11 @@ def ADClipDecision(msg, db):
         # r.raise_for_status()
         # ad_info = r.json()
         # return ad_info[0]["source"]["uri"]
+
+        # TODO call OW
+        # call GAM
         uri = gadserver.callGuaranteedAdServer(msg,db)
+        #
 
         print("Got add from GAM = " + uri)
         return uri
