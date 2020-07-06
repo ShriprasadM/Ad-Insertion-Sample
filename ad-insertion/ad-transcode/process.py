@@ -88,8 +88,8 @@ def ADClipDecision(msg, db):
         # r.raise_for_status()
         # ad_info = r.json()
         # return ad_info[0]["source"]["uri"]
-    uri = gadserver.callGuaranteedAdServer(msg,db)
-    return uri
+        uri = gadserver.callGuaranteedAdServer(msg,db)
+        return uri
     except:
         print(traceback.format_exc(), flush=True)
         return None

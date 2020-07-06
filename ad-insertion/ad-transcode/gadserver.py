@@ -60,11 +60,13 @@ def callGuaranteedAdServer(msg, db):
         """
        # print(r)
 
+        result = None
         vast = ET.fromstring(r)
         for node in vast.iter():
             if node.tag == "MediaFile":
-              print(node.text)
+              result = node.text
               break
+        return result   
     except Exception as e:
         print(e)
         # print(traceback.format_exc(), flush=True)
