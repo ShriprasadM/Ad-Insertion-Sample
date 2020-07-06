@@ -74,9 +74,9 @@ def ADPrefetch(ad_uri):
 
 
 def ADClipDecision(msg, db):
-    duration = msg.time_range[1]-msg.time_range[0]
-    print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
-    metaData = db.query(msg.content, msg.time_range, msg.time_field)
+    # duration = msg.time_range[1]-msg.time_range[0]
+    # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
+    # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
         # r=requests.post(ad_decision_server, timeout=timeout, data=json.dumps({
         #     "metadata":metaData,
@@ -89,6 +89,8 @@ def ADClipDecision(msg, db):
         # ad_info = r.json()
         # return ad_info[0]["source"]["uri"]
         uri = gadserver.callGuaranteedAdServer(msg,db)
+
+        print("Got add from GAM = " + uri)
         return uri
     except:
         print(traceback.format_exc(), flush=True)
