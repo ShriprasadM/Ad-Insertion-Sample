@@ -66,8 +66,11 @@ def callGuaranteedAdServer(msg, db):
             if node.tag == "MediaFile":
               result = node.text
               break
+
+            print("SHRI :: success GAM")
         return result   
     except Exception as e:
+        print("Error in calling GAM")
         print(e)
         # print(traceback.format_exc(), flush=True)
         return None
