@@ -104,10 +104,10 @@ def ADClipDecision(msg, db):
             "req.ext.wrapper.profileid": 2953
         }
         response = requests.get(url, params)
-        # response = requests.get(url1)
 
         response.raise_for_status()
         # access JSOn content
+        jsonResponse = response.json()
         print("JSON response from " + url + " :")
         print(jsonResponse)
 
