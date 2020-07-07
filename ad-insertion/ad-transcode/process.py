@@ -78,6 +78,39 @@ def ADClipDecision(msg, db):
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
+        url = 'http://172.16.4.192:9009/video/json'
+        params = {
+            "app.name": "OpenWrapperSample",
+            "app.ver": 1.0,
+            "app.storeurl": "https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fpubmatic-sdk-app%2Fid1175273098%3Fvideobid%3D10%26advdomainres%3D1%26vidimprand%3D1",
+            "app.pub.id": 5890,
+            "app.bundle": "com.pubmatic.openbid.app",
+            "req.id": "1559039248176",
+            "imp.id": "28635736ddc2bb1",
+            "imp.tagid": "/15671365/MG_VideoAdUnit",
+            "imp.vid.mimes": "video%2F3gpp%2Cvideo%2Fmp4%2Cvideo%2Fwebm",
+            "imp.vid.minduration": 30,
+            "imp.vid.maxduration": 90,
+            "imp.vid.ext.adpod.adminduration": 20,
+            "imp.vid.ext.adpod.admaxduration": 30,
+            "imp.vid.ext.adpod.minads": 2,
+            "imp.vid.ext.adpod.maxads": 4,
+            "imp.vid.ext.adpod.excliabcat": 100,
+            "imp.vid.ext.adpod.excladv": 100,
+            "req.ext.wrapper.versionid": 1,
+            "req.ext.wrapper.ssauction": 0,
+            "req.ext.wrapper.sumry_disable": 0,
+            "req.ext.wrapper.clientconfig": 1,
+            "req.ext.wrapper.profileid": 2953
+        }
+        response = requests.get(url, params)
+        # response = requests.get(url1)
+
+        response.raise_for_status()
+        # access JSOn content
+        print("JSON response from " + url + " :")
+        print(jsonResponse)
+
         # r=requests.post(ad_decision_server, timeout=timeout, data=json.dumps({
         #     "metadata":metaData,
         #     "user":{
