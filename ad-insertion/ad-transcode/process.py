@@ -128,8 +128,8 @@ def ADClipDecision(msg, db):
         print("Got add from GAM = " + uri)
 
         uris = []
-        uris.append(uri)
-        uris.append(uri)
+        uris.append('https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4')
+        uris.append('https://redirector.gvt1.com/videoplayback/id/2dc9f4d123d3052b/itag/17/source/gfp_video_ads/requiressl/yes/acao/yes/mime/video%2F3gpp/ctier/L/ip/0.0.0.0/ipbits/0/expire/1594167798/sparams/ip,ipbits,expire,id,itag,source,requiressl,acao,mime,ctier/signature/B644805A2C133E4D282788132F335C99E810C2BD.41DC92007388C46D53E25D4CCC08AC900892B20A/key/ck2/file/file.3gp')
 
         # return uri
         return uris
@@ -217,6 +217,7 @@ def ADTranscode(kafkamsg, db):
                         print("Transcoding the AD segment {} \n".format(stream),flush=True)
                         # only generate one resolution for ad segment, if not generated, ad will fall back to skipped ad.
                         cmd = GetABRCommand(stream, msg.target_path, msg.streaming_type, msg.GetRedition(), duration=msg.segment_duration, fade_type="audio", content_type="ad")
+                        print("Command for creating segments: {} from url {} \n".format(cmd, stream),flush=True)
                         process_id = subprocess.Popen(cmd,stdout=subprocess.PIPE)
                         # the `multiprocessing.Process` process will wait until
                         # the call to the `subprocess.Popen` object is completed
