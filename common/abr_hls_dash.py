@@ -64,13 +64,18 @@ def StitchAdsV2(ads):
     if len(ads) == 1:
         return ads[0]
 
+    default_ads = []
+    default_ads.append('https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4')
+    default_ads.append(
+        'https://vod-progressive.akamaized.net/exp=1594203646~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3898%2F14%2F369491724%2F1530639866.mp4~hmac=a89d27777efd034158d7b351df3b50d8683d5dbc030e7e4c6b5b429b88b852a0/vimeo-prod-skyfire-std-us/01/3898/14/369491724/1530639866.mp4')
+
     cmd = ["ffmpeg"]
 
     # for ad in ads:
     # Currently command only works with 2 ads
     for i in range(2):
         cmd.append("-i")
-        cmd.append(ads[i])
+        cmd.append(default_ads[i])
     cmd.append("-filter_complex")
     cmd.append("[0:0]concat=n=2:v=1:a=1[v][a]")
     cmd.append("-map")
