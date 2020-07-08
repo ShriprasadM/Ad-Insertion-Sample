@@ -194,15 +194,13 @@ def ADTranscode(kafkamsg, db):
         except:
             pass
 
-         stream = ADClipDecision(msg,db)
-        #streams = ADClipDecision(msg,db)
+        stream = ADClipDecision(msg,db)
         zkd_path="/".join(msg.target.replace(adinsert_archive_root+"/","").split("/")[:-1])
-        if not streams:
+        if not stream:
             set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
             zks.process_abort()
         else:
             try:
-               # for stream in streams:
                 stream_folder = msg.segment_path + "/" + stream.split("/")[-1]
                 print("Checking pre-transcoded stream: "+stream_folder, flush=True)
                 if isdir(stream_folder): # pre-transcoded AD exists
