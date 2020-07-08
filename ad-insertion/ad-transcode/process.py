@@ -195,10 +195,6 @@ def ADTranscode(kafkamsg, db):
             pass
 
         stream = ADClipDecision(msg,db)
-<<<<<<< HEAD
-        #streams = ADClipDecision(msg,db)
-=======
->>>>>>> 5d1d7190ed3081a74b7cbbf6f81500e35c5b1891
         zkd_path="/".join(msg.target.replace(adinsert_archive_root+"/","").split("/")[:-1])
         if not stream:
             set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
