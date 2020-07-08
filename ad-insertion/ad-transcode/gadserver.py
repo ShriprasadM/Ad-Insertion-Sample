@@ -100,6 +100,13 @@ sampleOWResponse = """
 }
 """
 
+def unwrapVast(vastXmlURl):
+    myobject = {
+        "adm":vastXmlURl
+    }
+    unwrappedvast = requests.post('localhost:3000/api/unwrapVast', data= myobject)
+    return unwrappedvast
+
 def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
 
     customParams = """
@@ -207,6 +214,8 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
                     print("GAM Call ", str(callCnt), " Response = ", vast)
 
                     #TDOO unwrap call
+                    vastObject = unwrapVast(vast)
+
                     print("Getting Media File from VAST")
                     vastNodes = ET.fromstring(vast)
                     for node in vastNodes.iter():
