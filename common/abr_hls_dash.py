@@ -55,6 +55,34 @@ def StitchAds(ads):
     process_id.wait()
     return merged_video_file_location
 
+def StitchAdsV2(ads):
+    merged_video_file_location = "/var/www/output.mp4"
+
+    if len(ads) == 0:
+        return None
+
+    if len(ads) == 1:
+        return ads[0]
+
+    cmd = ["ffmpeg"]
+
+    # for ad in ads:
+    # Currently command only works with 2 ads
+    for i in range(2):
+        cmd.append("-i")
+        cmd.append(ads[i])
+    cmd.append("-filter_complex")
+    cmd.append("[0:0]concat=n=2:v=1:a=1[v][a]")
+    cmd.append("-map")
+    cmd.append("[v]")
+    cmd.append("-map")
+    cmd.append("[a]")
+    cmd.append("-y")
+    cmd.append(merged_video_file_location)
+    process_id = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    process_id.wait()
+    return merged_video_file_location
+
 def GetABRCommand(in_file, target, streaming_type, renditions=renditions_sample, duration=2,segment_num=0,fade_type=None,content_type=None):
     ffprobe_cmd = ["ffprobe", "-v", "quiet", "-print_format", "json", "-show_streams",in_file]
 

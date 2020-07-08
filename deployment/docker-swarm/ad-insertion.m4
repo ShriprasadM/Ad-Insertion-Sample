@@ -7,7 +7,7 @@
             - /etc/localtime:/etc/localtime:ro
         environment:
             AD_INTERVALS: 8
-            AD_DURATION: 10
+            AD_DURATION: 25
             AD_SEGMENT: 5
             AD_BACKOFF: 3
             AD_BENCH_MODE: 0
