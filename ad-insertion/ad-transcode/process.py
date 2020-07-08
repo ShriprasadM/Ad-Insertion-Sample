@@ -124,11 +124,11 @@ def ADClipDecision(msg, db):
 
         # TODO call OW
         # call GAM
-        uri = gadserver.callGuaranteedAdServer(msg,db)
+        ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse)
         #
 
-        print("Got add from GAM = " + uri)
-        return uri
+        print("ads = " + ads)
+        return uri[0]
     except:
         print(traceback.format_exc(), flush=True)
         return None
@@ -225,3 +225,7 @@ def ADTranscode(kafkamsg, db):
                 set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
                 zks.process_abort()
     zks.close()
+
+
+if __name__ == "__main__":
+    ADClipDecision(None, None)
