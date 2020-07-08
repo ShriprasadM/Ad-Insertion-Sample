@@ -4,8 +4,7 @@ import os
 import xml.etree.ElementTree as ET
 import json
 import urllib
-
-
+unwrapperUrl = "http://localhost:3000/api/unwrapVast"
 sampleOWResponse = """
 {
   "28635736ddc2bb1": [{
@@ -14,7 +13,7 @@ sampleOWResponse = """
     "pwtcid": "2befe49a-63d3-4da0-a512-a1ee5df86382",
     "pwtcid_pubmatic": "2befe49a-63d3-4da0-a512-a1ee5df86382",
     "pwtcpath": "/cache",
-    "pwtcurl": "//172.16.4.192:2424",
+    "pwtcurl": "http://172.16.4.192:2424",
     "pwtdid": "PUBDEAL1",
     "pwtdid_pubmatic": "PUBDEAL1",
     "pwtdur": "25",
@@ -100,12 +99,47 @@ sampleOWResponse = """
 }
 """
 
-def unwrapVast(vastXmlURl):
-    myobject = {
-        "adm":vastXmlURl
-    }
-    unwrappedvast = requests.post('localhost:3000/api/unwrapVast', data= myobject)
-    return unwrappedvast
+def getParsedVast(vastXmlURl, pwturl):
+    try:
+        myobject = {
+            "adm":vastXmlURl
+        }
+        unwrappedvast = requests.post(unwrapperUrl, json=myobject).json()
+        
+        if len(unwrappedvast['ads']) == 0:
+            myobject.adm = pwturl
+            unwrappedvast = requests.post(unwrapperUrl, json=myobject)
+        return unwrappedvast
+    except Exception as e:
+        print("Error in calling unwrapper")
+        print(e)
+        # print(traceback.format_exc(), flush=True)
+        return None 
+
+def getMediaFile(parsedVast):
+    try:
+        newMediaObjects =[]
+        ads = parsedVast['ads']
+        for ad in ads:
+            creatives = ad['creatives']
+            for creative in creatives:
+                isVideoCreative = False
+                mediaObject = {}
+                if len(creative['mediaFiles']) > 0:
+                    mediaFiles = creative['mediaFiles']
+                    for mediaFile in mediaFiles:
+                        if 'mimeType' in mediaFile: 
+                            isVideoCreative= True
+                            mediaObject['mediaFile'] = mediaFile
+                    if isVideoCreative == True:
+                        mediaObject['trackingEvents'] = creative['trackingEvents']
+                isEmpty = not bool(mediaObject)
+                if isEmpty == False:
+                    newMediaObjects.append(mediaObject)
+        return newMediaObjects
+    except Exception as e:
+        print("Error in getting Media File", e)
+        return None
 
 def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
 
@@ -182,8 +216,7 @@ def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
     #print(call)
     return call
 
-
-def callGuaranteedAdServer(msg, db, jsonResponse):
+def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
     # duration = msg.time_range[1]-msg.time_range[0]
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
@@ -198,32 +231,39 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 
         callCnt = 1
         bidResponses = []
+        mediaObjects = []
         for impid in owr :
             print(impid)
             for bid in owr[impid] :
                 #print(bid)
                 gam = injestOWBidsInGADServer(adMinDuration,adMaxDuration, bid)
-                r = requests.get(gam)
-                vast = r.text
+                # r = requests.get(gam)
+                pwturl = bid['pwtcurl'] + bid['pwtcpath'] + '/?uuid=' + bid['pwtcid']
+                vast = getParsedVast(gam, pwturl) #pwturl= xml hosted url ow.pubmatic.com/cacheid=cacheid
+                # vast = r.text
+                if vast and len(vast['ads']) > 0:
+                    bidResponses.append(vast['ads'])
                 callCnt += 1
                 # TODO call unwrap VAST End point
-                if vast == None :
-                    print("GAM Call ", str(callCnt), "Error :: GAM return empty VAST")
-                else :
-                    print("SHRI :: success GAM")
-                    print("GAM Call ", str(callCnt), " Response = ", vast)
+                #TODO RETURN MEDIA FILES, Tracking Events and click Events
+                if isSSAI == True:
+                    mediaObjects.append(getMediaFile(vast))
+                #Baed on flag
+                # if vast == None :
+                #     print("GAM Call ", str(callCnt), "Error :: GAM return empty VAST")
+                # else :
+                #     print("SHRI :: success GAM")
+                #     print("GAM Call ", str(callCnt), " Response = ", vast)
 
-                    #TDOO unwrap call
-                    vastObject = unwrapVast(vast)
-
-                    print("Getting Media File from VAST")
-                    vastNodes = ET.fromstring(vast)
-                    for node in vastNodes.iter():
-                        if node.tag == "MediaFile":
-                            bidResponses.append(node.text)
-                            break
+                #     #TDOO unwrap call
+                #     print("Getting Media File from VAST")
+                #     vastNodes = ET.fromstring(vast)
+                #     for node in vastNodes.iter():
+                #         if node.tag == "MediaFile":
+                #             bidResponses.append(node.text)
+                #             break
+                # bidResponses.append(vast)
                 
-
 
         print("all Media Files are collected = ", bidResponses)
         return bidResponses
@@ -235,11 +275,8 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
         # print(traceback.format_exc(), flush=True)
         return None
 
-
-
-
 if __name__ == "__main__":
-        callGuaranteedAdServer(None, None, None)
+    callGuaranteedAdServer(None, None, None,True)
 
 
 
