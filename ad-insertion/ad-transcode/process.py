@@ -126,7 +126,7 @@ def ADClipDecision(msg, db):
         # call GAM
         ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse)
 
-        print("ads = " + ads)
+        #print("ads = " , str(ads))
         return ads[0]
     except:
         print(traceback.format_exc(), flush=True)
