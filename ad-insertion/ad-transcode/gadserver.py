@@ -243,7 +243,7 @@ def testWithOw() :
     return jsonResponse
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
       #  owResponse = testWithOw()
        # callGuaranteedAdServer(None, None, owResponse)
 #        vastBuilder()
@@ -261,4 +261,4 @@ if __name__ == "__main__":
     #     b = go_string(str1, len(str1))
     #     lib.bar.restype = c_char_p
     #     a = lib.UnwrapVast(b)
-    #     print (a)     
+    #     print (a)    
