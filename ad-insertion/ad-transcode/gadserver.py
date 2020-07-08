@@ -125,7 +125,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
                         if node.tag == "MediaFile":
                             bidResponses.append(node.text)
                             break
-                
+                break
 
 
         print("all Media Files are collected = ", bidResponses)
@@ -244,10 +244,10 @@ def testWithOw() :
     return jsonResponse
 
 
-#if __name__ == "__main__":
-      #  owResponse = testWithOw()
-       # callGuaranteedAdServer(None, None, owResponse)
-#        vastBuilder()
+if __name__ == "__main__":
+    #   owResponse = testWithOw()
+       callGuaranteedAdServer(None, None, sample.ow_dummy_respose)
+    #    vastBuilder()
 
 
     # path = os.getcwd() + "/ad-insertion/ad-transcode/golib"
