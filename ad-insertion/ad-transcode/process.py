@@ -125,11 +125,13 @@ def ADClipDecision(msg, db):
         # TODO call OW
         # call GAM
         ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse)
-        print("ads = " + ads)
+        print("ads: ")
+        print(ads)
 
         merged_video_url = StichAds(ads)
+        print("Returning ad url: " + merged_video_url)
         return merged_video_url
-        
+
     except:
         print(traceback.format_exc(), flush=True)
         return None
@@ -198,7 +200,7 @@ def ADTranscode(kafkamsg, db):
 
         stream = ADClipDecision(msg,db)
         zkd_path="/".join(msg.target.replace(adinsert_archive_root+"/","").split("/")[:-1])
-        if not streams:
+        if not stream:
             set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
             zks.process_abort()
         else:
