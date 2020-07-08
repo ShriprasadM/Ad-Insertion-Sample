@@ -67,7 +67,7 @@ def StitchAdsV2(ads):
     default_ads = []
     default_ads.append('https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4')
     default_ads.append(
-        'https://vod-progressive.akamaized.net/exp=1594203646~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3898%2F14%2F369491724%2F1530639866.mp4~hmac=a89d27777efd034158d7b351df3b50d8683d5dbc030e7e4c6b5b429b88b852a0/vimeo-prod-skyfire-std-us/01/3898/14/369491724/1530639866.mp4')
+        'https://vod-progressive.akamaized.net/exp=1594224803~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3898%2F14%2F369491724%2F1530639866.mp4~hmac=09f5369d6f005d2e75d62fec10ca263983b024245fcb6cf705186a8fad4a8182/vimeo-prod-skyfire-std-us/01/3898/14/369491724/1530639866.mp4?download=1&filename=video.mp4')
 
     cmd = ["ffmpeg"]
 
