@@ -39,6 +39,22 @@ def check_renditions(frame_height, renditions=renditions_sample):
             return item
     return min_res
 
+def StichAds(ads):
+    merged_video_file_location = "/var/www/output.mp4"
+    cmd = ["ffmpeg", "-i", "https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4", "-i",
+           "https://vod-progressive.akamaized.net/exp=1594203646~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3898%2F14%2F369491724%2F1530639866.mp4~hmac=a89d27777efd034158d7b351df3b50d8683d5dbc030e7e4c6b5b429b88b852a0/vimeo-prod-skyfire-std-us/01/3898/14/369491724/1530639866.mp4"]
+    cmd.append("-filter_complex")
+    cmd.append("[0:0]concat=n=2:v=1:a=1[v][a]")
+    cmd.append("-map")
+    cmd.append("[v]")
+    cmd.append("-map")
+    cmd.append("[a]")
+    cmd.append("-y")
+    cmd.append(merged_video_file_location)
+    process_id = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    process_id.wait()
+    return merged_video_file_location
+
 def GetABRCommand(in_file, target, streaming_type, renditions=renditions_sample, duration=2,segment_num=0,fade_type=None,content_type=None):
     ffprobe_cmd = ["ffprobe", "-v", "quiet", "-print_format", "json", "-show_streams",in_file]
 
