@@ -4,7 +4,7 @@ import os
 import xml.etree.ElementTree as ET
 import json
 import urllib
-import vastgen.vast as vst
+#import vastgen.vast as vst
 import sys
 import html
 import sample
@@ -139,65 +139,65 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 
 
 
-def vastBuilder() :
-    print ("builder")
+# def vastBuilder() :
+#     print ("builder")
 
 
-    vast = vst.VAST({"version":"3.0", "VASTErrorURI": "optional url if something went wrong in client side"})
-    ad = vast.attachAd({ 
-        "id": "1", # ad id 
-        "structure": 'inline', # or "wrapper", 
-        "sequence": "1", # optional, not required
-        "Error": 'http://error.err', # error url if something went wrong in client side, optional
-        "AdTitle": 'Common name of the ad' , # required for inline structure, 
-        "AdSystem": { "name": 'name of adserver or company', "version": "1.0"  }, 
-        "Description": "optional description of ad",
-        "Advertiser": "Optional name of advertiser",
-        "Pricing": "Optional price (if you want to RTB on vast)",
-        "Extensions": "",
-        })
+#     vast = vst.VAST({"version":"3.0", "VASTErrorURI": "optional url if something went wrong in client side"})
+#     ad = vast.attachAd({ 
+#         "id": "1", # ad id 
+#         "structure": 'inline', # or "wrapper", 
+#         "sequence": "1", # optional, not required
+#         "Error": 'http://error.err', # error url if something went wrong in client side, optional
+#         "AdTitle": 'Common name of the ad' , # required for inline structure, 
+#         "AdSystem": { "name": 'name of adserver or company', "version": "1.0"  }, 
+#         "Description": "optional description of ad",
+#         "Advertiser": "Optional name of advertiser",
+#         "Pricing": "Optional price (if you want to RTB on vast)",
+#         "Extensions": "",
+#         })
     
-    ad.attachImpression({
-          "id": "adstitcher",
-         "url": "http://adstitcher.com"
-    })
-    ur = json.loads(sample.example2)  
-    creatives = ur["ads"][0]["creatives"]
-    for cr in creatives:
-        if  not "mediaFiles" in cr:
-            continue
+#     ad.attachImpression({
+#           "id": "adstitcher",
+#          "url": "http://adstitcher.com"
+#     })
+#     ur = json.loads(sample.example2)  
+#     creatives = ur["ads"][0]["creatives"]
+#     for cr in creatives:
+#         if  not "mediaFiles" in cr:
+#             continue
         
-        creative = ad.attachCreative('Linear', {
-                    "Duration" : '00:00:30'
-                })
-        if  "mediaFiles" in cr:
-            for med in cr["mediaFiles"]:
+#         creative = ad.attachCreative('Linear', {
+#                     "Duration" : '00:00:30'
+#                 })
+#         if  "mediaFiles" in cr:
+#             for med in cr["mediaFiles"]:
                 
-                creative.attachMediaFile(med["fileURL"],{
-                    "id" : med["id"],
-                    "type" : med["mimeType"],
-                    "bitrate" : str(med["bitrate"]),
-                    "minBitrate": str(med["minBitrate"]), 
-                    "maxBitrate": str(med["maxBitrate"]),
-                    "width" : str(med["width"]),
-                    "height" : str(med["height"]),
-                    "maintainAspectRatio" : "true",
-                    "codec" : med["codec"],
-                })
+#                 creative.attachMediaFile(med["fileURL"],{
+#                     "id" : med["id"],
+#                     "type" : med["mimeType"],
+#                     "bitrate" : str(med["bitrate"]),
+#                     "minBitrate": str(med["minBitrate"]), 
+#                     "maxBitrate": str(med["maxBitrate"]),
+#                     "width" : str(med["width"]),
+#                     "height" : str(med["height"]),
+#                     "maintainAspectRatio" : "true",
+#                     "codec" : med["codec"],
+#                 })
 
-        if "videoClickTrackingURLTemplates" in cr:
-            for url in cr["videoClickTrackingURLTemplates"]:
-                # attach video click tracking event
-                creative.attachVideoClick('ClickThrough', url)
+#         if "videoClickTrackingURLTemplates" in cr:
+#             for url in cr["videoClickTrackingURLTemplates"]:
+#                 # attach video click tracking event
+#                 creative.attachVideoClick('ClickThrough', url)
         
     
   
    
-    v = vast.xml()
+#     v = vast.xml()
     
-    mergedXml = html.unescape(" ".join(str(v).split()).replace("\\n"," ").replace("'","".replace("\b","")))
-    mergedXml = mergedXml.replace("b<VAST>", "<VAST version=\"3.0\">")
-    print(mergedXml)
+#     mergedXml = html.unescape(" ".join(str(v).split()).replace("\\n"," ").replace("'","".replace("\b","")))
+#     mergedXml = mergedXml.replace("b<VAST>", "<VAST version=\"3.0\">")
+#     print(mergedXml)
 
 
 
@@ -244,9 +244,9 @@ def testWithOw() :
 
 
 if __name__ == "__main__":
-        owResponse = testWithOw()
-        callGuaranteedAdServer(None, None, owResponse)
-       # vastBuilder()
+      #  owResponse = testWithOw()
+       # callGuaranteedAdServer(None, None, owResponse)
+#        vastBuilder()
 
 
     # path = os.getcwd() + "/ad-insertion/ad-transcode/golib"
@@ -261,4 +261,4 @@ if __name__ == "__main__":
     #     b = go_string(str1, len(str1))
     #     lib.bar.restype = c_char_p
     #     a = lib.UnwrapVast(b)
-    #     print (a)  
+    #     print (a)     
