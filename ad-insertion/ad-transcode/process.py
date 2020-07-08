@@ -194,29 +194,29 @@ def ADTranscode(kafkamsg, db):
         except:
             pass
 
-        # stream = ADClipDecision(msg,db)
-        streams = ADClipDecision(msg,db)
+         stream = ADClipDecision(msg,db)
+        #streams = ADClipDecision(msg,db)
         zkd_path="/".join(msg.target.replace(adinsert_archive_root+"/","").split("/")[:-1])
         if not streams:
             set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
             zks.process_abort()
         else:
             try:
-                for stream in streams:
-                    stream_folder = msg.segment_path + "/" + stream.split("/")[-1]
-                    print("Checking pre-transcoded stream: "+stream_folder, flush=True)
-                    if isdir(stream_folder): # pre-transcoded AD exists
-                        print("Prefetch the AD segment {} \n".format(stream_folder),flush=True)
-                        CopyADSegment(msg,stream)
-                    else:
-                        print("Transcoding the AD segment {} \n".format(stream),flush=True)
-                        # only generate one resolution for ad segment, if not generated, ad will fall back to skipped ad.
-                        cmd = GetABRCommand(stream, msg.target_path, msg.streaming_type, msg.GetRedition(), duration=msg.segment_duration, fade_type="audio", content_type="ad")
-                        print("Command for creating segments: {} from url {} \n".format(cmd, stream),flush=True)
-                        process_id = subprocess.Popen(cmd,stdout=subprocess.PIPE)
-                        # the `multiprocessing.Process` process will wait until
-                        # the call to the `subprocess.Popen` object is completed
-                        process_id.wait()
+               # for stream in streams:
+                stream_folder = msg.segment_path + "/" + stream.split("/")[-1]
+                print("Checking pre-transcoded stream: "+stream_folder, flush=True)
+                if isdir(stream_folder): # pre-transcoded AD exists
+                    print("Prefetch the AD segment {} \n".format(stream_folder),flush=True)
+                    CopyADSegment(msg,stream)
+                else:
+                    print("Transcoding the AD segment {} \n".format(stream),flush=True)
+                    # only generate one resolution for ad segment, if not generated, ad will fall back to skipped ad.
+                    cmd = GetABRCommand(stream, msg.target_path, msg.streaming_type, msg.GetRedition(), duration=msg.segment_duration, fade_type="audio", content_type="ad")
+                    print("Command for creating segments: {} from url {} \n".format(cmd, stream),flush=True)
+                    process_id = subprocess.Popen(cmd,stdout=subprocess.PIPE)
+                    # the `multiprocessing.Process` process will wait until
+                    # the call to the `subprocess.Popen` object is completed
+                    process_id.wait()
 
                 # signal that we are ready
                 set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adinsert/"+zkd_path)
