@@ -96,10 +96,10 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 
     try:
 
-       # owr = json.loads(sampleOWResponse.replace("'","\""))
+        owr = json.loads(sampleOWResponse.replace("'","\""))
         print("Preparing GAM call by injecting OW values")
       #  owr = json.loads(jsonResponse.replace("'","\""))
-        owr = jsonResponse
+       # owr = jsonResponse
         callCnt = 1
         bidResponses = []
         for impid in owr :
@@ -250,7 +250,7 @@ def testWithOw() :
 
 
     # path = os.getcwd() + "/ad-insertion/ad-transcode/golib"
-    #     class go_string(Structure):
+    #        class go_string(Structure):
     #         _fields_ = [
     #         ("p", c_char_p),
     #         ("n", c_int)
