@@ -1,0 +1,17 @@
+{
+  "name": "vastunwrapper",
+  "version": "1.0.0",
+  "description": "utility to unwrap vast",
+  "main": "unwrapper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shashank.jain",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express.js": "^1.0.0",
+    "http-status": "^1.4.2",
+    "vast-client": "^2.5.1"
+  }
+}
