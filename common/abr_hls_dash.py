@@ -39,7 +39,7 @@ def check_renditions(frame_height, renditions=renditions_sample):
             return item
     return min_res
 
-def StichAds(ads):
+def StitchAds(ads):
     merged_video_file_location = "/var/www/output.mp4"
     cmd = ["ffmpeg", "-i", "https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4", "-i",
            "https://vod-progressive.akamaized.net/exp=1594203646~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3898%2F14%2F369491724%2F1530639866.mp4~hmac=a89d27777efd034158d7b351df3b50d8683d5dbc030e7e4c6b5b429b88b852a0/vimeo-prod-skyfire-std-us/01/3898/14/369491724/1530639866.mp4"]

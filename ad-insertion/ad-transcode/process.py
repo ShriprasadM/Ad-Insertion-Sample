@@ -3,6 +3,7 @@
 from os.path import isfile, isdir
 from os import mkdir, makedirs, listdir, remove
 from abr_hls_dash import GetABRCommand
+from abr_hls_dash import StitchAds
 from zkdata import ZKData
 from zkstate import ZKState
 import multiprocessing
@@ -128,7 +129,7 @@ def ADClipDecision(msg, db):
         print("ads: ")
         print(ads)
 
-        merged_video_url = StichAds(ads)
+        merged_video_url = StitchAds(ads)
         print("Returning ad url: " + merged_video_url)
         return merged_video_url
 
