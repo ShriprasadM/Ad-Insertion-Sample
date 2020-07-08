@@ -96,7 +96,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 
     try:
 
-        owr = json.loads(sampleOWResponse.replace("'","\""))
+        owr = json.loads(sample.ow_dummy_respose.replace("'","\""))
         print("Preparing GAM call by injecting OW values")
       #  owr = json.loads(jsonResponse.replace("'","\""))
        # owr = jsonResponse
