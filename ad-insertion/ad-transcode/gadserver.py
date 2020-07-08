@@ -7,101 +7,7 @@ import urllib
 import vastgen.vast as vst
 import sys
 import html
-
-
-sampleOWResponse = """
-{
-  "28635736ddc2bb1": [{
-    "pwtbst": "1",
-    "pwtbst_pubmatic": "1",
-    "pwtcid": "2befe49a-63d3-4da0-a512-a1ee5df86382",
-    "pwtcid_pubmatic": "2befe49a-63d3-4da0-a512-a1ee5df86382",
-    "pwtcpath": "/cache",
-    "pwtcurl": "//172.16.4.192:2424",
-    "pwtdid": "PUBDEAL1",
-    "pwtdid_pubmatic": "PUBDEAL1",
-    "pwtdur": "25",
-    "pwtecp": "9.00",
-    "pwtecp_pubmatic": "9.00",
-    "pwtpid": "pubmatic",
-    "pwtpid_pubmatic": "pubmatic",
-    "pwtplt": "video",
-    "pwtprofid": "2953",
-    "pwtpubid": "5890",
-    "pwtsid": "/15671365/MG_VideoAdUnit",
-    "pwtsid_pubmatic": "/15671365/MG_VideoAdUnit",
-    "pwtsz": "0x0",
-    "pwtsz_pubmatic": "0x0",
-    "pwtverid": "1"
-  }, {
-    "pwtbst": "1",
-    "pwtbst_pubmatic": "1",
-    "pwtcid": "73e29c4e-d70e-44dc-b64c-80cf9edf6a29",
-    "pwtcid_pubmatic": "73e29c4e-d70e-44dc-b64c-80cf9edf6a29",
-    "pwtcpath": "/cache",
-    "pwtcurl": "//172.16.4.192:2424",
-    "pwtdid": "PUBDEAL1",
-    "pwtdid_pubmatic": "PUBDEAL1",
-    "pwtdur": "25",
-    "pwtecp": "9.00",
-    "pwtecp_pubmatic": "9.00",
-    "pwtpid": "pubmatic",
-    "pwtpid_pubmatic": "pubmatic",
-    "pwtplt": "video",
-    "pwtprofid": "2953",
-    "pwtpubid": "5890",
-    "pwtsid": "/15671365/MG_VideoAdUnit",
-    "pwtsid_pubmatic": "/15671365/MG_VideoAdUnit",
-    "pwtsz": "0x0",
-    "pwtsz_pubmatic": "0x0",
-    "pwtverid": "1"
-  }, {
-    "pwtbst": "1",
-    "pwtbst_pubmatic": "1",
-    "pwtcid": "548da009-1f7b-44dc-876a-10f6b90a7473",
-    "pwtcid_pubmatic": "548da009-1f7b-44dc-876a-10f6b90a7473",
-    "pwtcpath": "/cache",
-    "pwtcurl": "//172.16.4.192:2424",
-    "pwtdid": "PUBDEAL1",
-    "pwtdid_pubmatic": "PUBDEAL1",
-    "pwtdur": "20",
-    "pwtecp": "9.00",
-    "pwtecp_pubmatic": "9.00",
-    "pwtpid": "pubmatic",
-    "pwtpid_pubmatic": "pubmatic",
-    "pwtplt": "video",
-    "pwtprofid": "2953",
-    "pwtpubid": "5890",
-    "pwtsid": "/15671365/MG_VideoAdUnit",
-    "pwtsid_pubmatic": "/15671365/MG_VideoAdUnit",
-    "pwtsz": "0x0",
-    "pwtsz_pubmatic": "0x0",
-    "pwtverid": "1"
-  }, {
-    "pwtbst": "1",
-    "pwtbst_pubmatic": "1",
-    "pwtcid": "fa2336d6-4196-4c90-ba71-519d2be1ef21",
-    "pwtcid_pubmatic": "fa2336d6-4196-4c90-ba71-519d2be1ef21",
-    "pwtcpath": "/cache",
-    "pwtcurl": "//172.16.4.192:2424",
-    "pwtdid": "PUBDEAL1",
-    "pwtdid_pubmatic": "PUBDEAL1",
-    "pwtdur": "20",
-    "pwtecp": "9.00",
-    "pwtecp_pubmatic": "9.00",
-    "pwtpid": "pubmatic",
-    "pwtpid_pubmatic": "pubmatic",
-    "pwtplt": "video",
-    "pwtprofid": "2953",
-    "pwtpubid": "5890",
-    "pwtsid": "/15671365/MG_VideoAdUnit",
-    "pwtsid_pubmatic": "/15671365/MG_VideoAdUnit",
-    "pwtsz": "0x0",
-    "pwtsz_pubmatic": "0x0",
-    "pwtverid": "1"
-  }]
-}
-"""
+import sample
 
 def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
 
@@ -192,7 +98,8 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 
        # owr = json.loads(sampleOWResponse.replace("'","\""))
         print("Preparing GAM call by injecting OW values")
-        owr = json.loads(jsonResponse.replace("'","\""))
+      #  owr = json.loads(jsonResponse.replace("'","\""))
+        owr = jsonResponse
         callCnt = 1
         bidResponses = []
         for impid in owr :
@@ -235,250 +142,6 @@ def callGuaranteedAdServer(msg, db, jsonResponse):
 def vastBuilder() :
     print ("builder")
 
-    example2 = """
-    {
-    "ads": [
-        {
-            "id": "20001",
-            "sequence": null,
-            "system": {
-                "value": "iabtechlab",
-                "version": "4.0"
-            },
-            "title": "iabtechlab video ad",
-            "description": null,
-            "advertiser": null,
-            "pricing": {
-                "value": "25.00",
-                "model": "cpm",
-                "currency": "USD"
-            },
-            "survey": null,
-            "errorURLTemplates": [
-                "http://example.com/error"
-            ],
-            "impressionURLTemplates": [
-                "http://example.com/track/impression"
-            ],
-            "creatives": [
-                {
-                    "id": "5480",
-                    "adId": null,
-                    "sequence": "1",
-                    "apiFramework": null,
-                    "trackingEvents": {
-                        "start": [
-                            "http://example.com/tracking/start"
-                        ],
-                        "firstQuartile": [
-                            "http://example.com/tracking/firstQuartile"
-                        ],
-                        "midpoint": [
-                            "http://example.com/tracking/midpoint"
-                        ],
-                        "thirdQuartile": [
-                            "http://example.com/tracking/thirdQuartile"
-                        ],
-                        "complete": [
-                            "http://example.com/tracking/complete"
-                        ],
-                        "progress-10": [
-                            "http://example.com/tracking/progress-10"
-                        ]
-                    },
-                    "type": "linear",
-                    "duration": 16,
-                    "skipDelay": -1,
-                    "mediaFiles": [
-                        {
-                            "id": "5241",
-                            "fileURL": "https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4",
-                            "deliveryType": "progressive",
-                            "mimeType": "video/mp4",
-                            "codec": "0",
-                            "bitrate": 500,
-                            "minBitrate": 360,
-                            "maxBitrate": 1080,
-                            "width": 400,
-                            "height": 300,
-                            "apiFramework": "",
-                            "scalable": null,
-                            "maintainAspectRatio": null
-                        }
-                    ],
-                    "videoClickTrackingURLTemplates": [
-                        "https://iabtechlab.com"
-                    ],
-                    "videoCustomClickURLTemplates": [
-                        "http://iabtechlab.com"
-                    ],
-                    "adParameters": null,
-                    "icons": []
-                }
-            ],
-            "extensions": [
-                {
-                    "attributes": {
-                        "type": "iab-Count"
-                    },
-                    "children": [
-                        {
-                            "name": "total_available",
-                            "value": "2",
-                            "attributes": {
-                                "total_available": null
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "errorURLTemplates": [],
-    "version": "3.0"
-}
-    """
-    example = """
-    {
-    "ads": [
-        {
-            "id": "20004",
-            "sequence": null,
-            "system": {
-                "value": "iabtechlab",
-                "version": "4.0"
-            },
-            "title": "VAST 4.0 Pilot - Scenario 5",
-            "description": "This is sample companion ad tag with Linear ad tag. This tag while showing video ad on the player, will show a companion ad beside the player where it can be fitted. At most 3 companion ads can be placed. Modify accordingly to see your own content.",
-            "advertiser": null,
-            "pricing": {
-                "value": "25.00",
-                "model": "cpm",
-                "currency": "USD"
-            },
-            "survey": null,
-            "errorURLTemplates": [
-                "http://example.com/error",
-                "http://example.com/error"
-            ],
-            "impressionURLTemplates": [
-                "http://example.com/track/impression",
-                "http://example.com/track/impression"
-            ],
-            "creatives": [
-                {
-                    "id": "5480",
-                    "adId": null,
-                    "sequence": "1",
-                    "apiFramework": null,
-                    "trackingEvents": {},
-                    "type": "companion",
-                    "variations": [
-                        {
-                            "id": "1232",
-                            "width": "300",
-                            "height": "250",
-                            "type": "image/png",
-                            "staticResource": "https://www.iab.com/wp-content/uploads/2014/09/iab-tech-lab-6-644x290.png",
-                            "htmlResource": null,
-                            "iframeResource": null,
-                            "altText": null,
-                            "companionClickThroughURLTemplate": "https://iabtechlab.com",
-                            "companionClickTrackingURLTemplates": [],
-                            "trackingEvents": {}
-                        }
-                    ]
-                },
-                {
-                    "id": "5480",
-                    "adId": null,
-                    "sequence": "1",
-                    "apiFramework": null,
-                    "trackingEvents": {
-                        "start": [
-                            "http://example.com/tracking/start"
-                        ],
-                        "firstQuartile": [
-                            "http://example.com/tracking/firstQuartile"
-                        ],
-                        "midpoint": [
-                            "http://example.com/tracking/midpoint"
-                        ],
-                        "thirdQuartile": [
-                            "http://example.com/tracking/thirdQuartile"
-                        ],
-                        "complete": [
-                            "http://example.com/tracking/complete"
-                        ],
-                        "progress-10": [
-                            "http://example.com/tracking/progress-10"
-                        ]
-                    },
-                    "type": "linear",
-                    "duration": 16,
-                    "skipDelay": -1,
-                    "mediaFiles": [
-                        {
-                            "id": "5241",
-                            "fileURL": "https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4",
-                            "deliveryType": "progressive",
-                            "mimeType": "video/mp4",
-                            "codec": "0",
-                            "bitrate": 500,
-                            "minBitrate": 360,
-                            "maxBitrate": 1080,
-                            "width": 400,
-                            "height": 300,
-                            "apiFramework": "",
-                            "scalable": null,
-                            "maintainAspectRatio": null
-                        },
-                         {
-                            "id": "5241",
-                            "fileURL": "https://iab-publicfiles.s3.amazonaws.com/vast/VAST-4.0-Short-Intro.mp4",
-                            "deliveryType": "progressive",
-                            "mimeType": "video/mp4",
-                            "codec": "0",
-                            "bitrate": 500,
-                            "minBitrate": 360,
-                            "maxBitrate": 1080,
-                            "width": 400,
-                            "height": 300,
-                            "apiFramework": "",
-                            "scalable": null,
-                            "maintainAspectRatio": null
-                        }
-                    ],
-                    "videoClickTrackingURLTemplates": [
-                        "https://iabtechlab.com"
-                    ],
-                    "videoCustomClickURLTemplates": [],
-                    "adParameters": null,
-                    "icons": []
-                }
-            ],
-            "extensions": [
-                {
-                    "attributes": {
-                        "type": "iab-Count"
-                    },
-                    "children": [
-                        {
-                            "name": "total_available",
-                            "value": "2",
-                            "attributes": {
-                                "total_available": null
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "errorURLTemplates": [],
-    "version": "3.0"
-}
-    """
 
     vast = vst.VAST({"version":"3.0", "VASTErrorURI": "optional url if something went wrong in client side"})
     ad = vast.attachAd({ 
@@ -498,7 +161,7 @@ def vastBuilder() :
           "id": "adstitcher",
          "url": "http://adstitcher.com"
     })
-    ur = json.loads(example2)  
+    ur = json.loads(sample.example2)  
     creatives = ur["ads"][0]["creatives"]
     for cr in creatives:
         if  not "mediaFiles" in cr:
@@ -544,37 +207,38 @@ def vastBuilder() :
 
 def testWithOw() :
  
-    url = 'http://172.16.4.192:9009/video/json'
-    params = {
-        "app.name": "OpenWrapperSample",
-        "app.ver": 1.0,
-        "app.storeurl": "https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fpubmatic-sdk-app%2Fid1175273098%3Fvideobid%3D10%26advdomainres%3D1%26vidimprand%3D1",
-        "app.pub.id": 5890,
-        "app.bundle": "com.pubmatic.openbid.app",
-        "req.id": "1559039248176",
-        "imp.id": "28635736ddc2bb1",
-        "imp.tagid": "/15671365/MG_VideoAdUnit",
-        "imp.vid.mimes": "video%2F3gpp%2Cvideo%2Fmp4%2Cvideo%2Fwebm",
-        "imp.vid.minduration": 30,
-        "imp.vid.maxduration": 90,
-        "imp.vid.ext.adpod.adminduration": 20,
-        "imp.vid.ext.adpod.admaxduration": 30,
-        "imp.vid.ext.adpod.minads": 2,
-        "imp.vid.ext.adpod.maxads": 4,
-        "imp.vid.ext.adpod.excliabcat": 100,
-        "imp.vid.ext.adpod.excladv": 100,
-        "req.ext.wrapper.versionid": 1,
-        "req.ext.wrapper.ssauction": 0,
-        "req.ext.wrapper.sumry_disable": 0,
-        "req.ext.wrapper.clientconfig": 1,
-        "req.ext.wrapper.profileid": 2953
-    }
-    response = requests.get(url, params)
+    # url = 'http://172.16.4.192:9009/video/json'
+    # params = {
+    #     "app.name": "OpenWrapperSample",
+    #     "app.ver": 1.0,
+    #     "app.storeurl": "https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fpubmatic-sdk-app%2Fid1175273098%3Fvideobid%3D10%26advdomainres%3D1%26vidimprand%3D1",
+    #     "app.pub.id": 5890,
+    #     "app.bundle": "com.pubmatic.openbid.app",
+    #     "req.id": "1559039248176",
+    #     "imp.id": "28635736ddc2bb1",
+    #     "imp.tagid": "/15671365/MG_VideoAdUnit",
+    #     "imp.vid.mimes": "video%2F3gpp%2Cvideo%2Fmp4%2Cvideo%2Fwebm",
+    #     "imp.vid.minduration": 30,
+    #     "imp.vid.maxduration": 90,
+    #     "imp.vid.ext.adpod.adminduration": 20,
+    #     "imp.vid.ext.adpod.admaxduration": 30,
+    #     "imp.vid.ext.adpod.minads": 2,
+    #     "imp.vid.ext.adpod.maxads": 4,
+    #     "imp.vid.ext.adpod.excliabcat": 100,
+    #     "imp.vid.ext.adpod.excladv": 100,
+    #     "req.ext.wrapper.versionid": 1,
+    #     "req.ext.wrapper.ssauction": 0,
+    #     "req.ext.wrapper.sumry_disable": 0,
+    #     "req.ext.wrapper.clientconfig": 1,
+    #     "req.ext.wrapper.profileid": 2953
+    # }
+    # response = requests.get(url, params)
 
-    response.raise_for_status()
-    # access JSOn content
-    jsonResponse = response.json()
-    print("JSON response from " + url + " :")
+    # response.raise_for_status()
+    # # access JSOn content
+    # jsonResponse = response.json()
+    jsonResponse = sample.ow_dummy_respose
+    #print("JSON response from " + url + " :")
     print(jsonResponse)
     return jsonResponse
 
