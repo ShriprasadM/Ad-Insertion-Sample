@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 
+
 from os.path import isfile, isdir
 from os import mkdir, makedirs, listdir, remove
-from abr_hls_dash import GetABRCommand
-from zkdata import ZKData
-from zkstate import ZKState
 import multiprocessing
 import errno
 import time
@@ -13,6 +11,12 @@ import subprocess
 import requests
 import shutil
 import traceback
+
+
+
+# from abr_hls_dash import GetABRCommand
+# from zkdata import ZKData
+# from zkstate import ZKState
 
 import gadserver
 import sample
@@ -79,7 +83,7 @@ def ADClipDecision(msg, db):
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
-        url = ' '
+        url = 'http://172.16.4.192:9009/video/json'
         params = {
             "app.name": "OpenWrapperSample",
             "app.ver": 1.0,
@@ -88,7 +92,7 @@ def ADClipDecision(msg, db):
             "app.bundle": "com.pubmatic.openbid.app",
             "req.id": "1559039248176",
             "imp.id": "28635736ddc2bb1",
-            "imp.tagid": "/15671365/MG_VideoAdUnit",
+            "imp.tagid": "%2F43743431%2FDMDemo",
             "imp.vid.mimes": "video%2F3gpp%2Cvideo%2Fmp4%2Cvideo%2Fwebm",
             "imp.vid.minduration": 30,
             "imp.vid.maxduration": 90,
@@ -102,14 +106,16 @@ def ADClipDecision(msg, db):
             "req.ext.wrapper.ssauction": 0,
             "req.ext.wrapper.sumry_disable": 0,
             "req.ext.wrapper.clientconfig": 1,
-            "req.ext.wrapper.profileid": 2953
+            "req.ext.wrapper.profileid": 4689
         }
         response = requests.get(url, params)
 
-        # response.raise_for_status()
+        response.raise_for_status()
         # # access JSOn content
-        # jsonResponse = response.json()
-        jsonResponse = sample.ow_dummy_respose_2
+        jsonResponse = response.json()
+        if len(jsonResponse) == 0:
+            print("DUMMY")
+            jsonResponse = sample.ow_dummy_respose_2
         print("JSON response from " + url + " :")
         print(jsonResponse)
 
@@ -130,7 +136,9 @@ def ADClipDecision(msg, db):
         ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse, isSSAI)
 
         #print("ads = " , str(ads))
-        return ads[0]
+        if not ads == None and len(ads) > 0:
+         return ads[0]
+        return ""
     except:
         print(traceback.format_exc(), flush=True)
         return None
@@ -231,4 +239,5 @@ def ADTranscode(kafkamsg, db):
 
 
 if __name__ == "__main__":
-    ADClipDecision(None, None)
+    stream =  ADClipDecision(None, None)
+    print(stream)

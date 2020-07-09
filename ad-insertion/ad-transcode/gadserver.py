@@ -169,7 +169,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
                 if isSSAI == True:
                     mediaObjects, files1 = getMediaFile(vast)
                     mediaObjects.append(mediaObjects)
-                    files.append(files1)
+                    files = files + files1
                 #Baed on flag
                 # if vast == None :
                 #     print("GAM Call ", str(callCnt), "Error :: GAM return empty VAST")
