@@ -20,7 +20,7 @@ def getParsedVast(vastXmlURl, pwturl):
         unwrappedvast = requests.post(unwrapperUrl, json=myobject).json()
         
         if len(unwrappedvast['ads']) == 0:
-            myobject.adm = pwturl
+            myobject["adm"] = pwturl
             unwrappedvast = requests.post(unwrapperUrl, json=myobject)
         return unwrappedvast
     except Exception as e:
@@ -146,8 +146,8 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
         #owr = json.loads(sample.ow_dummy_respose.replace("'","\""))
         print("Preparing GAM call by injecting OW values")
       #  owr = json.loads(jsonResponse.replace("'","\""))
-        owr = sample.ow_dummy_respose
-       # owr = jsonResponse
+        #owr = sample.ow_dummy_respose
+        owr = jsonResponse
         callCnt = 1
         bidResponses = []
         mediaObjects = []
