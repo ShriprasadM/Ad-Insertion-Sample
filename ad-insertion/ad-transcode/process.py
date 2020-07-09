@@ -79,7 +79,7 @@ def ADClipDecision(msg, db):
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
-        url = 'http://172.16.4.192:9009/video/json'
+        url = ' '
         params = {
             "app.name": "OpenWrapperSample",
             "app.ver": 1.0,

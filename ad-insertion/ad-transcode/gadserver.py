@@ -8,9 +8,11 @@ import urllib
 import sys
 import html
 import sample
+import random
 unwrapperUrl = "http://172.16.4.46:3000/api/unwrapVast"
 
 def getParsedVast(vastXmlURl, pwturl):
+    unwrappedvast = None
     try:
         myobject = {
             "adm":vastXmlURl
@@ -30,6 +32,7 @@ def getParsedVast(vastXmlURl, pwturl):
 def getMediaFile(parsedVast):
     try:
         newMediaObjects =[]
+        files = []
         ads = parsedVast['ads']
         for ad in ads:
             creatives = ad['creatives']
@@ -42,12 +45,14 @@ def getMediaFile(parsedVast):
                         if 'mimeType' in mediaFile: 
                             isVideoCreative= True
                             mediaObject['mediaFile'] = mediaFile
+                            if "fileURL" in mediaFile:
+                             files.append(mediaFile['fileURL'])
                     if isVideoCreative == True:
                         mediaObject['trackingEvents'] = creative['trackingEvents']
                 isEmpty = not bool(mediaObject)
                 if isEmpty == False:
                     newMediaObjects.append(mediaObject)
-        return newMediaObjects
+        return newMediaObjects, files
     except Exception as e:
         print("Error in getting Media File", e)
         return None
@@ -102,7 +107,7 @@ def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
     params = urllib.parse.quote("".join(customParams.split()))
 
     #print("Params = " , params)
-
+    rnumber = random.randint(1111,999999)
 
     adRequest = """ 
     https://pubads.g.doubleclick.net/gampad/ads?iu=/15671365/SM_HK_20_AU
@@ -117,11 +122,11 @@ def injestOWBidsInGADServer(minDuration, maxDuration, owr) :
         &output=vast
         &unviewed_position_start=1
         &env=vp
-        &correlator=[placeholder]
+        &correlator={rnumber}
         &vpmute=0
         &vpa=0
         &url=http://google.com&vpos=preroll
-    """.format(params = params, minDuration = minDuration, maxDuration = maxDuration)
+    """.format(params = params, minDuration = minDuration, maxDuration = maxDuration, rnumber= rnumber)
 
     call = "".join(adRequest.split())
     #print(call)
@@ -146,6 +151,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
         callCnt = 1
         bidResponses = []
         mediaObjects = []
+        files = []
         for impid in owr :
             print(impid)
             for bid in owr[impid] :
@@ -161,7 +167,9 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
                 # TODO call unwrap VAST End point
                 #TODO RETURN MEDIA FILES, Tracking Events and click Events
                 if isSSAI == True:
-                    mediaObjects.append(getMediaFile(vast))
+                    mediaObjects, files1 = getMediaFile(vast)
+                    mediaObjects.append(mediaObjects)
+                    files.append(files1)
                 #Baed on flag
                 # if vast == None :
                 #     print("GAM Call ", str(callCnt), "Error :: GAM return empty VAST")
@@ -178,8 +186,13 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
                 #             break
                 # bidResponses.append(vast)
                 
+        if isSSAI == True :
+            # for file in files:
+            #         print(file)
+            print("all Media Files are collected = ", files)
+            return files
 
-        print("all Media Files are collected = ", bidResponses)
+        
         return bidResponses
         
         
@@ -297,7 +310,7 @@ def testWithOw() :
 
 if __name__ == "__main__":
     #   owResponse = testWithOw()
-       callGuaranteedAdServer(None, None, sample.ow_dummy_respose,True)
+       callGuaranteedAdServer(None, None, sample.ow_dummy_respose_2,True)
     #    vastBuilder()
 
 
