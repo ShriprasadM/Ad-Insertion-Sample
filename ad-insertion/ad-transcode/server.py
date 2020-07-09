@@ -31,11 +31,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         stream =  process.ADClipDecision(None, None, False, params)
         vast = process.createMergedVast(stream)
         print(vast)
-
-        s.send_response(200)
-        s.send_header("Content-type", "application/xml")
-        s.end_headers()
-        s.wfile.write(vast.encode())
+        if None == vast :
+            s.send_response(500)
+            s.wfile.write("error in getting vast")
+        else:
+            s.send_response(200)
+            s.send_header("Content-type", "application/xml")
+            s.end_headers()
+            s.wfile.write(vast.encode())
 
 
 def runServer():

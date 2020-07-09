@@ -9,8 +9,8 @@ COPY   *.py /home/
 ENTRYPOINT ["/bin/bash","-c","/home/main.py"]
 CMD    ["/bin/bash","-c","/home/server.py"]
 
-WORKDIR /home
-
+WORKDIR /home 
+RUN  nohup python3  /home/server.py& 
 ####
 ARG  USER=docker
 ARG  GROUP=docker
