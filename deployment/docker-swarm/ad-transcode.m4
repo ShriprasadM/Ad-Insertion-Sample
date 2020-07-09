@@ -1,6 +1,8 @@
 
     ad-transcode:
         image: defn(`REGISTRY_PREFIX')ssai_ad_transcode:latest
+        ports:
+            - "9008:9008"
         environment:
             NO_PROXY: "*"
             no_proxy: "*"
