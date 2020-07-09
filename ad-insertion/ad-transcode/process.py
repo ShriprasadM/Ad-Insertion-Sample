@@ -124,7 +124,8 @@ def ADClipDecision(msg, db):
 
         # TODO call OW
         # call GAM
-        ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse)
+        isSSAI =  True
+        ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse, isSSAI)
 
         #print("ads = " , str(ads))
         return ads[0]
