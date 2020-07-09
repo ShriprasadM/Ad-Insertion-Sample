@@ -78,7 +78,7 @@ def ADPrefetch(ad_uri):
         
 
 
-def ADClipDecision(msg, db):
+def ADClipDecision(msg, db, isSSAI ):
     # duration = msg.time_range[1]-msg.time_range[0]
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
@@ -132,13 +132,18 @@ def ADClipDecision(msg, db):
 
         # TODO call OW
         # call GAM
-        isSSAI =  True
         ads = gadserver.callGuaranteedAdServer(msg,db, jsonResponse, isSSAI)
+        if isSSAI:
+            #print("ads = " , str(ads))
+            print("called by Inhouse SSAI")
+            if not ads == None and len(ads) > 0:
+                return ads[0]
+            return ""
+        
+        if not isSSAI:
+            print("called by Publisher SSAI")
+            return ads
 
-        #print("ads = " , str(ads))
-        if not ads == None and len(ads) > 0:
-         return ads[0]
-        return ""
     except:
         print(traceback.format_exc(), flush=True)
         return None
@@ -205,7 +210,7 @@ def ADTranscode(kafkamsg, db):
         except:
             pass
 
-        stream = ADClipDecision(msg,db)
+        stream = ADClipDecision(msg,db, True)
         zkd_path="/".join(msg.target.replace(adinsert_archive_root+"/","").split("/")[:-1])
         if not stream:
             set_ad_path(zk_segment_prefix+"/"+zkd_path+"/link","/adstatic")
@@ -239,5 +244,8 @@ def ADTranscode(kafkamsg, db):
 
 
 if __name__ == "__main__":
-    stream =  ADClipDecision(None, None)
+    inhouse_ssai = True
+    publisher_ssai = False
+   # stream =  ADClipDecision(None, None, inhouse_ssai)
+    stream =  ADClipDecision(None, None, publisher_ssai)
     print(stream)

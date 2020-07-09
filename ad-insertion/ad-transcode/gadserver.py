@@ -137,7 +137,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     adMinDuration = 5000 # 5 sec
-    adMaxDuration = 17000 # 15 sec
+    adMaxDuration = 17000 # 17 sec
 
    
 
