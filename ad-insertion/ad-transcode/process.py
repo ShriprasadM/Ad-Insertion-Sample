@@ -247,7 +247,7 @@ def ADTranscode(kafkamsg, db):
 
 def createMergedVast(ads) :
     try:
-        url = 'http://172.16.4.46:5000/json-example'
+        url = 'http://172.17.0.4:5000/json-example'
         response = requests.post(url,json= ads)
         response.raise_for_status()
         # # access JSOn content
