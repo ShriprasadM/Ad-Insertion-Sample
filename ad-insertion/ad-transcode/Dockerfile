@@ -7,6 +7,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y -q --no-
 COPY --from=ssai_common /home/*.py /home/
 COPY   *.py /home/
 CMD    ["/bin/bash","-c","/home/main.py"]
+CMD    ["/bin/bash","-c","/home/server.py"]
+
 WORKDIR /home
 
 ####
