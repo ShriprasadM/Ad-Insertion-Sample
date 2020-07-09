@@ -310,7 +310,7 @@ def testWithOw() :
 
 if __name__ == "__main__":
     #   owResponse = testWithOw()
-       callGuaranteedAdServer(None, None, sample.ow_dummy_respose_2,True)
+       callGuaranteedAdServer(None, None, sample.ow_dummy_respose_2,False)
     #    vastBuilder()
 
 
