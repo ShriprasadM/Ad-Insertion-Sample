@@ -24,6 +24,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         s.send_header("Content-type", "text/html")
         s.end_headers()
     
+    def do_POST(s):
+        do_GET(s)
+
     def do_GET(s):
         """Respond to a GET request."""
         params = parse_qs(urlparse(s.path).query)
@@ -37,6 +40,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             s.send_response(200)
             s.send_header("Content-type", "application/xml")
+            s.send_header("Access-Control-Allow-Origin","http://imasdk.googleapis.com")
+            s.send_header("Access-Control-Allow-Credentials","true")
             s.end_headers()
             s.wfile.write(vast.encode())
 
