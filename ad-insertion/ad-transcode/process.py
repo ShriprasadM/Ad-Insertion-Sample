@@ -14,9 +14,9 @@ import traceback
 
 
 
-from abr_hls_dash import GetABRCommand
-from zkdata import ZKData
-from zkstate import ZKState
+# from abr_hls_dash import GetABRCommand
+# from zkdata import ZKData
+# from zkstate import ZKState
 
 import gadserver
 import sample
@@ -87,13 +87,13 @@ def ADClipDecision(msg, db):
         params = {
             "app.name": "OpenWrapperSample",
             "app.ver": 1.0,
-            "app.storeurl": "https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fpubmatic-sdk-app%2Fid1175273098%3Fvideobid%3D10%26advdomainres%3D1%26vidimprand%3D1",
+            "app.storeurl": "https://itunes.apple.com/us/app/pubmatic-sdk-app/id1175273098?videobid=10&advdomainres=1&vidimprand=1",
             "app.pub.id": 5890,
             "app.bundle": "com.pubmatic.openbid.app",
             "req.id": "1559039248176",
             "imp.id": "28635736ddc2bb1",
-            "imp.tagid": "%2F43743431%2FDMDemo",
-            "imp.vid.mimes": "video%2F3gpp%2Cvideo%2Fmp4%2Cvideo%2Fwebm",
+            "imp.tagid": "/43743431/DMDemo",
+            "imp.vid.mimes": "video/3gpp,video/mp4,video/webm",
             "imp.vid.minduration": 30,
             "imp.vid.maxduration": 90,
             "imp.vid.ext.adpod.adminduration": 20,
