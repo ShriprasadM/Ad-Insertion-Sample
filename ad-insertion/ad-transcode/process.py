@@ -15,6 +15,7 @@ import shutil
 import traceback
 
 import gadserver
+import sample
 
 adinsert_archive_root="/var/www/adinsert"
 adsegment_archive_root="/var/www/adsegment"
@@ -105,9 +106,10 @@ def ADClipDecision(msg, db):
         }
         response = requests.get(url, params)
 
-        response.raise_for_status()
-        # access JSOn content
-        jsonResponse = response.json()
+        # response.raise_for_status()
+        # # access JSOn content
+        # jsonResponse = response.json()
+        jsonResponse = sample.ow_dummy_respose_2
         print("JSON response from " + url + " :")
         print(jsonResponse)
 
