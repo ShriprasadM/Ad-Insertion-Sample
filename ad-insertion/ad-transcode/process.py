@@ -243,9 +243,21 @@ def ADTranscode(kafkamsg, db):
     zks.close()
 
 
+def createMergedVast(ads) :
+    try:
+        url = 'http://172.16.4.46:5000/json-example'
+        response = requests.post(url,ads)
+        response.raise_for_status()
+        # # access JSOn content
+        jsonResponse = response.json()
+    except:
+        print(traceback.format_exc(), flush=True)
+        return None
+
 if __name__ == "__main__":
     inhouse_ssai = True
     publisher_ssai = False
    # stream =  ADClipDecision(None, None, inhouse_ssai)
     stream =  ADClipDecision(None, None, publisher_ssai)
+    createMergedVast(stream)
     print(stream)

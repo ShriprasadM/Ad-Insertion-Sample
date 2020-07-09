@@ -162,7 +162,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
                 vast = getParsedVast(gam, pwturl) #pwturl= xml hosted url ow.pubmatic.com/cacheid=cacheid
                 # vast = r.text
                 if vast and len(vast['ads']) > 0:
-                    bidResponses.append(vast['ads'])
+                    bidResponses.append(vast)
                 callCnt += 1
                 # TODO call unwrap VAST End point
                 #TODO RETURN MEDIA FILES, Tracking Events and click Events
