@@ -14,20 +14,28 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post('/api/unwrapVast', function (req, res) {
-    console.log("Request is" +req.body);
-    console.log('Applying : VAST Unwrapping', req.body.adm);
-    vastXmlString = req.body.adm;
-    var vastJsonResp = {};
-    if (vastXmlString.startsWith('http')) {
-        vastJsonResp = vastClient.get(vastXmlString).then(function(parsedXML){
-            console.log('JSON : ', parsedXML);
-            res.status(HTTPStatus.OK).send(parsedXML);
-        });
-    } else {
-        vastJsonResp = vastParser.parseVAST(vastXmlString).then(function(parsedXML){
-            console.log('JSON : ', parsedXML);
-            res.status(HTTPStatus.OK).send(parsedXML);
-        });
+    try {
+        console.log("Request is" + req.body);
+        console.log('Applying : VAST Unwrapping', req.body.adm);
+        vastXmlString = req.body.adm;
+        var vastJsonResp = {};
+        if (vastXmlString.startsWith('http') || vastXmlString.startsWith('https')) {
+            vastJsonResp = vastClient.get(vastXmlString).then(function (parsedXML) {
+                console.log('JSON : ', parsedXML);
+                res.status(HTTPStatus.OK).send(parsedXML);
+            }).catch(function(error){
+                res.status(HTTPStatus.BAD_REQUEST).send('Please check the vast url' + JSON.stringify(error));
+            });
+        } else {
+            vastJsonResp = vastParser.parseVAST(vastXmlString).then(function (parsedXML) {
+                console.log('JSON : ', parsedXML);
+                res.status(HTTPStatus.OK).send(parsedXML);
+            }).catch(function(error){
+                res.status(HTTPStatus.BAD_REQUEST).send('Please check the vast url' + JSON.stringify(error));             
+            });
+        }
+    } catch (ex) {
+        console.log("Exceptions is ", ex);
     }
 })
 
