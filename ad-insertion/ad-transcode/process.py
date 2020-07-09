@@ -12,8 +12,6 @@ import requests
 import shutil
 import traceback
 
-
-
 from abr_hls_dash import GetABRCommand
 from zkdata import ZKData
 from zkstate import ZKState
@@ -78,13 +76,13 @@ def ADPrefetch(ad_uri):
         
 
 
-def ADClipDecision(msg, db, isSSAI ):
+def ADClipDecision(msg, db, isSSAI, params=None):
     # duration = msg.time_range[1]-msg.time_range[0]
     # print("query db with time range: "+str(msg.time_range[0])+"-"+str(msg.time_range[1]))
     # metaData = db.query(msg.content, msg.time_range, msg.time_field)
     try:
         url = 'http://172.16.4.192:9009/video/json'
-        params = {
+        defaultParams = {
             "app.name": "OpenWrapperSample",
             "app.ver": 1.0,
             "app.storeurl": "https://itunes.apple.com/us/app/pubmatic-sdk-app/id1175273098?videobid=10&advdomainres=1&vidimprand=1",
@@ -108,6 +106,10 @@ def ADClipDecision(msg, db, isSSAI ):
             "req.ext.wrapper.clientconfig": 1,
             "req.ext.wrapper.profileid": 4689
         }
+
+        if params == None:
+            params = defaultParams
+
         response = requests.get(url, params)
 
         response.raise_for_status()
