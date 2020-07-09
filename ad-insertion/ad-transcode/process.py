@@ -115,9 +115,9 @@ def ADClipDecision(msg, db, isSSAI, params=None):
         response.raise_for_status()
         # # access JSOn content
         jsonResponse = response.json()
-        if len(jsonResponse) == 0:
-            print("DUMMY")
-            jsonResponse = sample.ow_dummy_respose_2
+        # if len(jsonResponse) == 0:
+        #     pr  int("DUMMY")
+        #     jsonResponse = sample.ow_dummy_respose_2
         print("JSON response from " + url + " :")
         print(jsonResponse)
 
