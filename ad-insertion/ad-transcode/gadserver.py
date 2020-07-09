@@ -20,7 +20,7 @@ def getParsedVast(vastXmlURl, pwturl):
         unwrappedvast = requests.post(unwrapperUrl, json=myobject).json()
         
         if len(unwrappedvast['ads']) == 0:
-            myobject["adm"] = pwturl
+            myobject["adm"] = "http:" + pwturl
             unwrappedvast = requests.post(unwrapperUrl, json=myobject)
         return unwrappedvast
     except Exception as e:
@@ -158,7 +158,7 @@ def callGuaranteedAdServer(msg, db, jsonResponse, isSSAI):
                 #print(bid)
                 gam = injestOWBidsInGADServer(adMinDuration,adMaxDuration, bid)
                 # r = requests.get(gam)
-                pwturl = bid['pwtcurl'] + bid['pwtcpath'] + '/?uuid=' + bid['pwtcid']
+                pwturl = bid['pwtcurl'] + bid['pwtcpath'] + '?uuid=' + bid['pwtcid']
                 vast = getParsedVast(gam, pwturl) #pwturl= xml hosted url ow.pubmatic.com/cacheid=cacheid
                 # vast = r.text
                 if vast and len(vast['ads']) > 0:
